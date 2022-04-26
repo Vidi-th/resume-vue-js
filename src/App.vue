@@ -120,6 +120,7 @@ export default {
       this.$store.commit('setPage', "");
     },
     press(id){
+      this.$router.push("/");
       this.tekan = !this.tekan;
       this.$store.commit('setPage', id);
     }
