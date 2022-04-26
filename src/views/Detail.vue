@@ -4,6 +4,7 @@
       :query="gql => gql`
         query MyQuery($id: Int!) {
           summary_by_pk(id: $id) {
+            id
             title
             additional_equipments {
               id

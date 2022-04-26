@@ -16,7 +16,7 @@ const httpLink = new HttpLink({
 })
 
 const wsLink = new WebSocketLink({
-  uri:'ws://weekly-task-vue.hasura.app/v1/graphql',
+  uri:'wss://weekly-task-vue.hasura.app/v1/graphql',
   options: {
       reconnect: true,
   }
