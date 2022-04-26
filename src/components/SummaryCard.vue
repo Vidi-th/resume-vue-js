@@ -1,6 +1,5 @@
 <template>
-    <v-container>
-    
+  <v-container>
     <ApolloQuery 
       :query="searchFromStore !=''?(gql => gql`
         query MyQuery2($id: Int!) {
@@ -20,73 +19,71 @@
             }
             }`
         )"
-      
       :variables="searchComputed"
-      >
-      <template v-slot="{ result: { loading, error, data } }">
-        <!-- Loading -->
-        <div v-if="loading" class="loading apollo">Loading...</div>
+    >
+    <template v-slot="{ result: { loading, error, data } }">
 
-        <!-- Error -->
-        <div v-else-if="error" class="error apollo">An error occurred
-          {{ error }}
-        </div>
+      <!-- Loading -->
+      <div v-if="loading" class="loading apollo">Loading...</div>
 
-        <!-- Result -->
-        <div v-else-if="data" class="result apollo">
-            <div v-if="data.summary_by_pk">
-                <summary-card-item
-                :data="data.summary_by_pk"
-                :index="data.summary_by_pk.id"
-                >
-                </summary-card-item>
-            </div>
-            <div v-else-if="data.summary_by_pk == null && !data.summary">{{ "Belum ada summary" }}</div>
-            <div v-if="data.summary">
-                <summary-card-item
-                v-for="(card, index) in data.summary" 
-                :key="index"
-                :data="card"
-                :index="card.id"
-                >
-                </summary-card-item>
-            </div>
+      <!-- Error -->
+      <div v-else-if="error" class="error apollo">An error occurred
+        {{ error }}
+      </div>
+
+      <!-- Result -->
+      <div v-else-if="data" class="result apollo">
+        <div v-if="data.summary_by_pk">
+          <summary-card-item
+          :data="data.summary_by_pk"
+          :index="data.summary_by_pk.id"
+          >
+          </summary-card-item>
         </div>
-        <!-- No result -->
-        <div v-else class="no-result apollo">Loadingg....</div>
-      </template>
+        <div v-else-if="data.summary_by_pk == null && !data.summary">{{ "Belum ada summary" }}</div>
+        <div v-if="data.summary">
+          <summary-card-item
+          v-for="(card, index) in data.summary" 
+          :key="index"
+          :data="card"
+          :index="card.id"
+          >
+          </summary-card-item>
+        </div>
+      </div>
+
+      <!-- No result -->
+      <div v-else class="no-result apollo">Loading...</div>
+
+    </template>
     </ApolloQuery>
-
-    
-    </v-container>
+  </v-container>
 </template>
 
 <script>
 import SummaryCardItem from "@/components/SummaryCardItem.vue"
 
 export default {
-    setup() {
-        
-    },
-    data: () => ({
-        show: false,
-    }),
-    components: {
-        SummaryCardItem,
-    },
-    computed: {
-    searchComputed(){
-        console.log("Page berapa ", this.searchFromStore)
-      //this.research();
-      if(this.searchFromStore == ""){
-        return {};
-      }
-      return {id: this.searchFromStore};
-    },
-    searchFromStore(){
-        return this.$store.state.page;
+  setup() {
+      
+  },
+  data: () => ({
+      show: false,
+  }),
+  components: {
+      SummaryCardItem,
+  },
+  computed: {
+  searchComputed(){
+    if(this.searchFromStore == ""){
+      return {};
     }
-    
-    },
+    return {id: this.searchFromStore};
+  },
+
+  searchFromStore(){
+    return this.$store.state.page;
+  }
+  },
 }
 </script>
