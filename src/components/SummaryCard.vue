@@ -2,13 +2,14 @@
     <v-container>
     
     <ApolloQuery 
-      :query="search!=''?(gql => gql`
+      :query="searchFromStore !=''?(gql => gql`
         query MyQuery2($id: Int!) {
-        summary_by_pk(id: $id) {
-            title
-            resume
-            cover
-        }
+            summary_by_pk(id: $id) {
+                id
+                title
+                resume
+                cover
+            }
         }
       `) : (gql =>gql`query MyQuery {
             summary {
@@ -33,17 +34,23 @@
 
         <!-- Result -->
         <div v-else-if="data" class="result apollo">
-          <div v-if="data.summary_by_pk">{{ data.summary_by_pk.title }}</div>
-          <div v-else-if="data.summary_by_pk == null && !data.summary">{{ "Belum ada summary" }}</div>
-          <div v-if="data.summary">
-            <summary-card-item
-            v-for="(card, index) in data.summary" 
-            :key="index"
-            :data="card"
-            :index="card.id"
-            >
-            </summary-card-item>
-          </div>
+            <div v-if="data.summary_by_pk">
+                <summary-card-item
+                :data="data.summary_by_pk"
+                :index="data.summary_by_pk.id"
+                >
+                </summary-card-item>
+            </div>
+            <div v-else-if="data.summary_by_pk == null && !data.summary">{{ "Belum ada summary" }}</div>
+            <div v-if="data.summary">
+                <summary-card-item
+                v-for="(card, index) in data.summary" 
+                :key="index"
+                :data="card"
+                :index="card.id"
+                >
+                </summary-card-item>
+            </div>
         </div>
         <!-- No result -->
         <div v-else class="no-result apollo">No result :(</div>
@@ -63,22 +70,23 @@ export default {
     },
     data: () => ({
         show: false,
-        search: "",
     }),
-    // props: {
-    //     select: String,
-    // },
     components: {
         SummaryCardItem,
     },
     computed: {
     searchComputed(){
-      console.log("Search computed :", this.search);
-      if(this.search !== ""){
-        return {id: this.search};
+        console.log("Page berapa ", this.searchFromStore)
+      //this.research();
+      if(this.searchFromStore == ""){
+        return {};
       }
-      return {};
+      return {id: this.searchFromStore};
+    },
+    searchFromStore(){
+        return this.$store.state.page;
     }
-    }
+    
+    },
 }
 </script>

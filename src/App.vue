@@ -1,28 +1,6 @@
 <template>
   <v-app>
-    <ApolloQuery
-      :query="gql => gql`
-        query Title {
-          summary {
-            id
-            title
-          }
-        }
-      `"
-    >
-
-    <template v-slot="{ result: { loading, error, data } }">
-        <!-- Loading -->
-        <div v-if="loading" class="loading apollo">Loading...</div>
-
-        <!-- Error -->
-        <div v-else-if="error" class="error apollo">An error occurred
-          {{ error }}
-        </div>
-
-        <!-- Result -->
-        <div v-else-if="data" class="result apollo">
-          <v-navigation-drawer
+    <v-navigation-drawer
             v-model="drawer"
             fixed
             app
@@ -38,21 +16,43 @@
                 v-model="group"
                 active-class="deep-purple--text text--accent-4"
               >
-              
-                <v-list-item v-for="(item, index) in data.summary" :key=index @click="press">
-                  <!-- <summary-card v-if="tekan" :select="item.id"/> -->
-                  <v-list-item-title> 
-                    {{ item.title }} 
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-navigation-drawer>
-        </div>
-        <!-- No result -->
-        <div v-else class="no-result apollo">No result :(</div>
-      </template>
-    </ApolloQuery>
+            <ApolloQuery
+              :query="gql => gql`
+                query Title {
+                  summary {
+                    id
+                    title
+                  }
+                }
+              `"
+            >
+
+        <template v-slot="{ result: { loading, error, data } }">
+            <!-- Loading -->
+            <div v-if="loading" class="loading apollo">Loading...</div>
+
+            <!-- Error -->
+            <div v-else-if="error" class="error apollo">An error occurred
+              {{ error }}
+            </div>
+
+            <!-- Result -->
+            <div v-else-if="data" class="result apollo">
+                
+                    
+              <v-list-item v-for="(item, index) in data.summary" :key=index @click="press(item.id)">
+                <v-list-item-title> 
+                  {{ item.title }} 
+                </v-list-item-title>
+              </v-list-item>
+            </div>
+            <!-- No result -->
+            <div v-else class="no-result apollo">No result :(</div>
+          </template>
+        </ApolloQuery>
+       </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
 
     
 
@@ -70,6 +70,7 @@
       </v-app-bar-nav-icon>
 
       <div class="d-flex align-center">
+        <router-link :to="{ name: 'Summary'}" >
         <v-img
           alt="Altera Logo"
           class="shrink mr-2"
@@ -79,6 +80,7 @@
           width="100"
           @click="home"
         />
+        </router-link >
 
         <v-spacer></v-spacer>
         <v-app-bar-title
@@ -100,37 +102,35 @@
 
     <v-main>
       <router-view/>
-
     </v-main>
   </v-app>
 </template>
 
 <script>
-//import SummaryCard from "@/components/SummaryCard.vue";
 
 export default {
   name: 'App',
-  components:{
-    //SummaryCard
-  },
   data: () => ({
-    items: ["general", "business", "sport", "entertainment", "health", "science", "technology"],
     drawer: false,
     group: null,
     tekan: false,
   }),
   methods: {
     home(){
-      this.$router.push('/');
+      this.$store.commit('setPage', "");
     },
-    press(){
+    press(id){
       this.tekan = !this.tekan;
+      this.$store.commit('setPage', id);
     }
   },
   watch: {
     group () {
       this.drawer = false
     },
+  },
+  action: {
+
   },
 };
 </script>

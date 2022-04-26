@@ -33,8 +33,8 @@
             <v-expansion-panels accordion>
               <!-- Expansion Panel Untuk Detail -->
               <v-expansion-panel
-                v-for="(tree, index) in data.summary_by_pk.additional_equipments"
-                :key="index"
+                v-for="tree in data.summary_by_pk.additional_equipments"
+                :key="`detail`+tree.id"
               >
               <label v-if="tree.detail">
                 <v-expansion-panel-header>Detail Rangkuman</v-expansion-panel-header>
@@ -46,8 +46,8 @@
 
               <!-- Expansion Panel Untuk Link Praktikum -->
               <v-expansion-panel
-                v-for="(tree, index) in data.summary_by_pk.additional_equipments"
-                :key="index"
+                v-for="tree in data.summary_by_pk.additional_equipments"
+                :key="`linkPrakikum`+tree.id"
               >
               <label v-if="tree.link_file">
                 <v-expansion-panel-header>Link Praktikum</v-expansion-panel-header>
@@ -60,7 +60,7 @@
               <!-- Expansion Panel Untuk Screenshot -->
               <v-expansion-panel
               v-for="(tree, index) in data.summary_by_pk.additional_equipments"
-              :key="index"
+              :key="`screenshot`+tree.id"
               >
               <label v-if="tree.screenshot">
                 <v-expansion-panel-header>Screenshot Praktikum {{ index +1 }}</v-expansion-panel-header>
@@ -91,6 +91,7 @@
 
     computed:{
       summary() {
+        console.log("Test :", this.$route.params.index)
         return this.$route.params.index;
       }
     }

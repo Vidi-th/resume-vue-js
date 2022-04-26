@@ -7,6 +7,7 @@ import router from './router'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 import vuetify from './plugins/vuetify'
+import store from '@/store/index.js'
 
 Vue.config.productionTip = false
 
@@ -44,6 +45,7 @@ Vue.use(VueApollo)
 
 new Vue({
   router,
+  store,
   apolloProvider,
   vuetify,
   render: h => h(App)
