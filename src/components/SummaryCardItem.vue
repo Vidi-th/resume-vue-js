@@ -21,8 +21,8 @@
             <v-btn
                 color="orange lighten-2"
                 text
-            > <router-link :to="{ name: 'Detail' }">
-                Explore
+            > <router-link :to="{ name: 'Detail', params: {index: data.id}}">
+                Detail
                 </router-link>
             </v-btn>
 

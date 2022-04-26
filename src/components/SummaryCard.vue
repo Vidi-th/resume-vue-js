@@ -65,6 +65,9 @@ export default {
         show: false,
         search: "",
     }),
+    // props: {
+    //     select: String,
+    // },
     components: {
         SummaryCardItem,
     },
