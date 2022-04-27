@@ -14,7 +14,7 @@
     >
       <v-list-item-group
         v-model="group"
-        active-class="deep-purple--text text--accent-4"
+        active-class="Aqua--text text--accent-4"
       >
       <ApolloQuery
         :query="gql => gql`
@@ -40,15 +40,15 @@
         <!-- Result -->
         <div v-else-if="data" class="result apollo"> 
                 
+          <router-link 
+          style="text-decoration: none; color: inherit;"
+          :to="{ name: 'Summary'}" >
           <v-list-item v-for="(item, index) in data.summary" :key=index @click="press(item.id)">
-            <router-link 
-            style="text-decoration: none; color: inherit;"
-            :to="{ name: 'Summary'}" >
             <v-list-item-title> 
               {{ item.title }} 
             </v-list-item-title>
-            </router-link>
           </v-list-item>
+          </router-link>
         </div>
         <!-- No result -->
         <div v-else class="no-result apollo">No result :(</div>

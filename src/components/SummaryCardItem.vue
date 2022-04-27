@@ -19,7 +19,7 @@
 
             <v-card-actions>
             <v-btn
-                color="orange lighten-2"
+                color="blue lighten-2"
                 text
             > 
                 <router-link :to="{ name: 'Detail', params: {index: data.id}}">
